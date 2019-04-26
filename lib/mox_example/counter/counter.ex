@@ -10,13 +10,7 @@ defmodule MoxExample.Counter do
   @behaviour MoxExample.Counter.Behaviour
 
   def start_link(opts \\ []) do
-    agent_opts =
-      Enum.reduce(opts, [], fn
-        {:name, name}, opts -> Keyword.put(opts, :name, name)
-        _, opts -> opts
-      end)
-
-    Agent.start_link(fn -> 0 end, agent_opts)
+    Agent.start_link(fn -> 0 end, Keyword.take(opts, [:name]))
   end
 
   def value(pid \\ __MODULE__) do

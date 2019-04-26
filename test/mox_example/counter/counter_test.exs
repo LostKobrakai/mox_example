@@ -12,6 +12,21 @@ defmodule MoxExample.CounterTest do
     {:ok, pid: pid}
   end
 
+  describe "start_link/1" do
+    test "can be started without opts" do
+      assert {:ok, _} = MoxExample.Counter.start_link()
+    end
+
+    test "can be started with empty opts" do
+      assert {:ok, _} = MoxExample.Counter.start_link([])
+    end
+
+    test "process can be named - atom" do
+      assert {:ok, pid} = MoxExample.Counter.start_link(name: __MODULE__.Counter)
+      assert ^pid = Process.whereis(__MODULE__.Counter)
+    end
+  end
+
   # Test implementation
   describe "value/1" do
     test "returns 0 on start", %{pid: pid} do
